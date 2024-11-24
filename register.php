@@ -1,6 +1,12 @@
 <?php
+header('Content-Type: aplication/json');
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: Access-Control-Allow-Origin, Accept");
+
+require_once 'connect_db.php';
+
 //setting up db connection
-$conn = new mysqli('localhost','dupamall','dupamall','dupamall');
+//$conn = new mysqli('localhost','dupamall','dupamall','dupamall');
 
 if($conn->connect_error){
     $error = 'Connection failed with :'.$conn->connect_error;
@@ -38,5 +44,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
     }
 }
+
 $conn->close();
+
 ?>
