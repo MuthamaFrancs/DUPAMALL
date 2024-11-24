@@ -1,5 +1,6 @@
 <?php
 
+// importing file for connecting to database
 require 'connect_db.php';
 
 if($conn->connect_error){
@@ -8,8 +9,10 @@ if($conn->connect_error){
 
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
+    //decoding the json data sent to the server
     $product = json_decode(file_get_contents('php://input'), true);
 
+    //for updating we need the user to update all fields for the product
     $product_id = trim($product['product_id']);
     $product_name = trim($product['product_name']);
     $product_price = trim($product['product_price']);

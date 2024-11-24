@@ -14,6 +14,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $product_price = trim($product['product_price']);
     $product_description = trim($product['product_description']);
     $product_type = trim($product['product_type']);
+    //image is stored as a string that is the url of the image
     $product_image = trim($product['product_image']);
 
     if(empty($product_name) || empty($product_price) || empty($product_description) || empty($product_type) || empty($product_image))
