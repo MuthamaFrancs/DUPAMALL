@@ -27,7 +27,7 @@ if ($result->num_rows > 0) {
 
 
  // check whether the user has the same password as the one
- if ($password === $user['seller_password']) {
+ if (password_verify($password,$user['seller_password'])) {
     echo json_encode([
         'code' => 1,
         'message' => 'Login successful.',
