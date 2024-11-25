@@ -47,7 +47,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
             echo json_encode($response);
         } else {
 
-        $encrypt_password = password_hash($password,PASSWORD_DEFAULT);
+        $encrypt_password = password_hash($password,PASSWORD_DEFAULT, );
         //inserting data into the database and preventing sqlinjections idk who would try injecting a class project :laughs
         $stmt = $conn->prepare("INSERT INTO seller (seller_fname, seller_lname, seller_email, seller_contact, seller_password) VALUES (?, ?, ?, ?, ?)");
         $stmt->bind_param("sssss", $firstname, $lastname, $email, $phone, $encrypt_password);
@@ -56,6 +56,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
             $response = [
                 'code' => 1, 
                 'message' => 'User created successfully'];
+            
         } else {
             echo "Error: " . $stmt->error;
         }
@@ -64,7 +65,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 }
 }
 
-
+echo json_encode($response);
 $conn->close();
 
 ?>
