@@ -11,7 +11,7 @@
 $host = 'localhost';
 $user = 'root';
 $pass = '';
-$db = 'dupa_mall';
+$db = 'classcom_Musau_Students';
 
 // creates connection to the database
 $conn = mysqli_connect($host, $user, $pass, $db);
