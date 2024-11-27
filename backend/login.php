@@ -22,7 +22,7 @@ if(empty($email) || empty($password)){
     exit;
 }
 // Query to fetch user records based on phone and password
-$query = $conn->prepare("SELECT * FROM seller WHERE seller_email = ?");
+$query = $conn->prepare("SELECT seller_fname, seller_lname, seller_email, seller_contact FROM seller WHERE seller_email = ?");
 $query->bind_param("s", $email);
 $query->execute();
 $result = $query->get_result();
@@ -54,7 +54,7 @@ if ($result->num_rows === 1) {
  // Return error response if credentials are invalid
  }
 
- echo json_encode($response);
+ echo json_encode((object)$response);
 $query->close();
 mysqli_close($conn);
 

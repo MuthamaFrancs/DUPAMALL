@@ -14,6 +14,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $password = trim($data['password']);
     $confirmpassword = trim($data['confirmpassword']);
     
+    
     if(empty($firstname) || empty($lastname) || empty($email) || empty($phone) || empty($password) || empty($confirmpassword))
     {
 
