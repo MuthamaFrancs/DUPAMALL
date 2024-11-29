@@ -1,4 +1,7 @@
 <?php
+header("Access-Control-Allow-Origin: *"); 
+header("Access-Control-Allow-Methods: POST"); 
+header("Access-Control-Allow-Headers: Content-Type, Authorization"); 
 // importing file for connecting to database
 require 'connect_db.php';
 
@@ -8,8 +11,6 @@ if($conn->connect_error){
 }
 
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
-
-    
 
         $response = [];    
     
@@ -39,14 +40,27 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
             $fetchSeller->execute();
             $sellerData = $fetchSeller->get_result();
 
-            //inserting data into the database (in robots voice)
+            if ($sellerData->num_rows === 1){
+
+                $seller = $sellerData->fetch_assoc();
+
+            } else {
+                
+                echo json_encode([
+                    'success'=> false,
+                    'message' => 'Seller id not found',
+                ]);
+                die();
+            }
+
+            //inserting data into the database 
             $stmt = $conn->prepare("INSERT INTO product (product_name, product_description, product_type, product_quantity, product_price, product_image, seller_id) VALUES (?, ?, ?, ?, ?, ?, ?)");
             $stmt->bind_param("sssidsi", $product_name, $product_description, $product_type, $product_quantity, $product_price, $product_image, $seller_id);
             if ($stmt->execute()) {
                 $response = [
                     'success' => true, 
                     'message' => 'Product created successfully',
-                    'sellerData' => $sellerData->fetch_assoc()
+                    'sellerData' => $seller
                 ];
             } else {
                $response = ['success' => false , 'message' => 'Error: ' . $stmt->error];

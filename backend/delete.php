@@ -1,5 +1,12 @@
 <?php
 
+// Enable CORS headers
+// Allow requests from any origin. Replace * with a specific origin if needed (e.g., http://localhost:3000).
+header("Access-Control-Allow-Origin: *"); 
+header("Access-Control-Allow-Methods: DELETE"); 
+header("Access-Control-Allow-Headers: Content-Type, Authorization"); 
+header("Access-Control-Max-Age: 86400"); //
+
 // importing file for connecting to database
 require 'connect_db.php';
 
@@ -13,12 +20,12 @@ require 'connect_db.php';
     //decoding the json data sent to the server
     $uri = $_SERVER['REQUEST_URI'];
     $enduri = explode("/", trim(parse_url($uri, PHP_URL_PATH)));
-    $productId = isset($enduri[count($enduri) - 1]) ? (int)$enduri[count($enduri) - 1] : 0;
+    $product_id = isset($enduri[count($enduri) - 1]) ? (int)$enduri[count($enduri) - 1] : 0;
     
      //checking if the product id is empty
      if(empty($product_id)){
         echo json_encode([
-            'success' => true,
+            'success' => false,
             'message' => 'Product ID required for deletion'
         ]);
         die();

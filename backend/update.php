@@ -1,4 +1,7 @@
 <?php
+header('Content-Type: aplication/json');
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: Access-Control-Allow-Origin, Accept");
 
 // importing file for connecting to database
 require 'connect_db.php';
@@ -18,9 +21,10 @@ if($_SERVER['REQUEST_METHOD'] === 'PUT'){
        $body = file_get_contents('php://input');
         // 1. Fetch the uri string containing the parameters for a product update
         $enduri = explode("/", trim(parse_url($uri, PHP_URL_PATH)));
+        $productId = isset($enduri[count($enduri) - 1]) ? (int)$enduri[count($enduri) - 1] : 0;
+
         // extract the details of the product from a http request body
         $productDetails = json_decode($body, true);
-        
 
         if (json_last_error() !== JSON_ERROR_NONE) {
             echo json_encode([
@@ -29,20 +33,14 @@ if($_SERVER['REQUEST_METHOD'] === 'PUT'){
             ]);
             die();
         }
-        // check the product_id existence
-        if (!isset($productDetails['product_id']) || !is_int($productDetails['product_id'])) {
+        if ($productId === 0) {
             $reponse = [
                 'success' => false,
-                'message' => 'Product id missing in the request body',
+                'message' => 'Invalid product id',
             ];
             echo json_encode($response);
             die();
-        } 
-
-        $productId = $productDetails['product_id'];
-        unset($productDetails['product_id']);
-
-        
+        } else {
             // update  the database according to details provided
             $updateFields = [];
             $updateValues = [];
@@ -73,7 +71,7 @@ if($_SERVER['REQUEST_METHOD'] === 'PUT'){
                 die();
             }
 
-            $paramsTypes .= 'i';
+            $paramTypes .= 'i';
             $updateValues[] = $productId;
     
             // bind parameters dybamically
@@ -94,7 +92,7 @@ if($_SERVER['REQUEST_METHOD'] === 'PUT'){
             echo json_encode($response);
             $stmt->close();
             $conn->close();
-    
+        }
     } else {
         $response = [
             'success' => false,

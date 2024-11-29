@@ -1,4 +1,7 @@
 <?php
+header('Content-Type: aplication/json');
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: Access-Control-Allow-Origin, Accept");
 // importing file for connecting to database
 require 'connect_db.php';
 
@@ -50,6 +53,5 @@ if($conn->connect_error){
     }
     echo json_encode($response);
     }
-    mysqli_close($conn);
 
 ?>

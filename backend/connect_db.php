@@ -9,9 +9,9 @@
  * 
  */
 $host = 'localhost';
-$user = 'root';
-$pass = '';
-$db = 'classcom_Musau_Students';
+$user = 'classcom_DUPAMALL';
+$pass = 'vB2QzvJLuyUqT8ej3Usu';
+$db = 'classcom_DUPAMALL';
 
 // creates connection to the database
 $conn = mysqli_connect($host, $user, $pass, $db);
@@ -20,6 +20,8 @@ if (!$conn) {
     die('Could not connect to MySQL: ' . mysqli_connect_error());
 }
 
-echo 'Connected Successfully';
+
+// This line caused confusion between text/html and application/json (Tendwa)
+//echo 'Connected Successfully';
 
 ?>

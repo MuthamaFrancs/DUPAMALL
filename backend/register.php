@@ -1,4 +1,7 @@
 <?php
+header('Content-Type: aplication/json');
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: Access-Control-Allow-Origin, Accept");
 require 'connect_db.php';
 
 
@@ -13,7 +16,6 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $phone = trim($data['phone']);
     $password = trim($data['password']);
     $confirmpassword = trim($data['confirmpassword']);
-    
     
     if(empty($firstname) || empty($lastname) || empty($email) || empty($phone) || empty($password) || empty($confirmpassword))
     {
