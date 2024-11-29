@@ -18,11 +18,9 @@ if($_SERVER['REQUEST_METHOD'] === 'PUT'){
        $body = file_get_contents('php://input');
         // 1. Fetch the uri string containing the parameters for a product update
         $enduri = explode("/", trim(parse_url($uri, PHP_URL_PATH)));
-        $productId = isset($enduri[count($enduri) - 1]) ? (int)$enduri[count($enduri) - 1] : 0;
-
         // extract the details of the product from a http request body
         $productDetails = json_decode($body, true);
-        var_dump($productDetails);
+        
 
         if (json_last_error() !== JSON_ERROR_NONE) {
             echo json_encode([
@@ -31,14 +29,20 @@ if($_SERVER['REQUEST_METHOD'] === 'PUT'){
             ]);
             die();
         }
-        if ($productId === 0) {
+        // check the product_id existence
+        if (!isset($productDetails['product_id']) || !is_int($productDetails['product_id'])) {
             $reponse = [
                 'success' => false,
-                'message' => 'Invalid product id',
+                'message' => 'Product id missing in the request body',
             ];
             echo json_encode($response);
             die();
-        } else {
+        } 
+
+        $productId = $productDetails['product_id'];
+        unset($productDetails['product_id']);
+
+        
             // update  the database according to details provided
             $updateFields = [];
             $updateValues = [];
@@ -90,7 +94,7 @@ if($_SERVER['REQUEST_METHOD'] === 'PUT'){
             echo json_encode($response);
             $stmt->close();
             $conn->close();
-        }
+    
     } else {
         $response = [
             'success' => false,
